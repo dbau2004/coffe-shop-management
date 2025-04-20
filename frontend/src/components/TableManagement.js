@@ -1,81 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { fetchTables, createTable } from '../api';
 
-function TableManagement() {
-  const [tables, setTables] = useState([]);
-  const [newTable, setNewTable] = useState({ tableNumber: '', description: '', status: 'AVAILABLE' });
+function TableManagement({ token }) {
+    const [tables, setTables] = useState([]);
+    const [newTable, setNewTable] = useState({ tableNumber: '', description: '', status: 'AVAILABLE' });
 
-  useEffect(() => {
-    fetchTables();
-  }, []);
+    useEffect(() => {
+        const loadTables = async () => {
+            try {
+                const data = await fetchTables(token);
+                setTables(data);
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+        loadTables();
+    }, [token]);
 
-  const fetchTables = async () => {
-    try {
-      const response = await axios.get('http://backend:8080/api/tables');
-      setTables(response.data);
-    } catch (error) {
-      console.error('Lỗi khi lấy danh sách bàn', error);
-    }
-  };
+    const handleCreateTable = async () => {
+        try {
+            await createTable(token, newTable);
+            setNewTable({ tableNumber: '', description: '', status: 'AVAILABLE' });
+            const data = await fetchTables(token);
+            setTables(data);
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
-  const handleCreateTable = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://backend:8080/api/tables', newTable, {
-        auth: { username: 'root', password: 'rootpassword' }
-      });
-      fetchTables();
-      setNewTable({ tableNumber: '', description: '', status: 'AVAILABLE' });
-    } catch (error) {
-      alert('Tạo bàn thất bại');
-    }
-  };
-
-  return (
-    <div className="p-6">
-      <h2 className="text-2xl mb-4">Quản lý bàn</h2>
-      
-      <div className="mb-8">
-        <h3 className="text-xl mb-2">Tạo bàn</h3>
-        <div className="flex space-x-4">
-          <input
-            type="number"
-            placeholder="Số bàn"
-            value={newTable.tableNumber}
-            onChange={(e) => setNewTable({ ...newTable, tableNumber: e.target.value })}
-            className="border p-2"
-          />
-          <input
-            type="text"
-            placeholder="Mô tả"
-            value={newTable.description}
-            onChange={(e) => setNewTable({ ...newTable, description: e.target.value })}
-            className="border p-2"
-          />
-          <select
-            value={newTable.status}
-            onChange={(e) => setNewTable({ ...newTable, status: e.target.value })}
-            className="border p-2"
-          >
-            <option value="AVAILABLE">Chưa đặt</option>
-            <option value="OCCUPIED">Đã đặt</option>
-          </select>
-          <button onClick={handleCreateTable} className="bg-blue-500 text-white p-2">Tạo</button>
+    return (
+        <div>
+            <h2>Create Table</h2>
+            <input
+                type="number"
+                placeholder="Table Number"
+                value={newTable.tableNumber}
+                onChange={(e) => setNewTable({ ...newTable, tableNumber: e.target.value })}
+            />
+            <input
+                type="text"
+                placeholder="Description"
+                value={newTable.description}
+                onChange={(e) => setNewTable({ ...newTable, description: e.target.value })}
+            />
+            <select
+                value={newTable.status}
+                onChange={(e) => setNewTable({ ...newTable, status: e.target.value })}
+            >
+                <option value="AVAILABLE">Available</option>
+                <option value="OCCUPIED">Occupied</option>
+            </select>
+            <button onClick={handleCreateTable}>Create Table</button>
+            <h2>Tables</h2>
+            <ul>
+                {tables.map((table) => (
+                    <li key={table.id}>
+                        {table.tableNumber} - {table.description} - {table.status}
+                    </li>
+                ))}
+            </ul>
         </div>
-      </div>
-
-      <div>
-        <h3 className="text-xl mb-2">Danh sách bàn</h3>
-        <ul>
-          {tables.map(table => (
-            <li key={table.id} className="border p-2 mb-2">
-              Bàn {table.tableNumber} - {table.description} - {table.status === 'AVAILABLE' ? 'Chưa đặt' : 'Đã đặt'}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default TableManagement;

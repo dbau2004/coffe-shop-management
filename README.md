@@ -24,7 +24,7 @@ Setup
 
 Clone the repository:
 
-git clone <repository-url>
+git clone <https://github.com/dbau2004/coffe-shop-management.git>
 cd coffee-shop-management
 
 Build and run the application with Docker Compose:

@@ -26,23 +26,25 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ROOT_ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/auth/**").permitAll() // Allow registration and login without
+                                                                     // authentication
+                        .requestMatchers("/api/admin/**").hasRole("ROOT_ADMIN") // Only ROOT_ADMIN can access admin
+                                                                                // routes
+                        .anyRequest().authenticated() // All other requests need to be authenticated
                 )
-                .httpBasic(httpBasic -> httpBasic.realmName("CoffeeShop"));
+                .httpBasic(httpBasic -> httpBasic.realmName("CoffeeShop")); // Basic Authentication for API requests
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Allow frontend to make requests to backend
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow these HTTP methods
+        configuration.setAllowedHeaders(List.of("*")); // Allow all headers
+        configuration.setAllowCredentials(true); // Allow sending credentials (cookies, authorization headers)
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // Apply CORS configuration globally
         return source;
     }
 
@@ -53,13 +55,13 @@ public class SecurityConfig {
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             return User.withUsername(user.getUsername())
                     .password(user.getPassword())
-                    .roles(user.getRole())
+                    .roles(user.getRole()) // Assign role from user data
                     .build();
         };
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // Use BCrypt for password encoding
     }
 }

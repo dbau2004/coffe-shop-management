@@ -5,18 +5,18 @@ services:
     image: mysql:latest
     environment:
       MYSQL_DATABASE: coffeeshop
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: 13072004
     ports:
-      - "3306:3306"
+      - "3306:3306"  # Sử dụng dấu ":" để ánh xạ cổng đúng
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql  # Đảm bảo rằng volumes được định dạng đúng
     networks:
       - app-network
 
   backend:
     build: ./backend
     ports:
-      - "8081:8080"
+      - "8080:8080"  # Ánh xạ cổng 8080 cho backend
     depends_on:
       - db
     environment:
@@ -29,15 +29,15 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "3000:3000"  # Ánh xạ cổng 3000 cho frontend
     depends_on:
       - backend
     networks:
       - app-network
 
 volumes:
-  db_data:
+  db_data:  # Định nghĩa volume đúng cách
 
 networks:
   app-network:
-    driver: bridge
+    driver: bridge  # Dùng driver bridge cho mạng
