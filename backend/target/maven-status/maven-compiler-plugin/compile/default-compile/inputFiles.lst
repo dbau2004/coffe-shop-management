@@ -1,0 +1,10 @@
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\BackendApplication.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\config\SecurityConfig.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\controller\AdminController.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\controller\AuthController.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\controller\TableController.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\DataInitializer.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\model\Table.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\model\User.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\repository\TableRepository.java
+D:\LTW2\coffee-shop-management\backend\src\main\java\com\coffeeshop\backend\repository\UserRepository.java

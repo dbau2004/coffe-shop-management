@@ -1,0 +1,15 @@
+Java/Maven
+
+backend/target/ backend/.mvn/ backend/mvnw backend/mvnw.cmd backend/.gitignore
+
+Node.js
+
+frontend/node_modules/ frontend/dist/ frontend/.gitignore
+
+Docker
+
+*.log docker-compose.yml.bak
+
+IDE
+
+.idea/ *.iml .vscode/

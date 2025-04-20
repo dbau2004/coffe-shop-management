@@ -1,0 +1,21 @@
+{
+  // Tắt lỗi kiểm tra CSS đối với các at-rule không xác định
+  "css.lint.unknownAtRules": "ignore",
+  
+  // Tắt tất cả kiểm tra CSS nếu bạn không muốn bị lỗi cú pháp CSS
+  "css.validate": false,
+  
+  // Liên kết CSS với chế độ ngôn ngữ Tailwind để có hỗ trợ cú pháp
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // Đảm bảo các tệp khác (ví dụ như JS imports) cũng có IntelliSense của Tailwind
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "css",
+    "javascript": "html",
+    "javascriptreact": "html"
+  },
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "interactive"
+}
